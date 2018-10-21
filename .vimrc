@@ -28,8 +28,6 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 
-" syntax on
-
 colorscheme nord
 
 map! <F3> <C-R>=strftime('%d.%m.%Y')<CR>
@@ -46,9 +44,3 @@ fun! JumpToDef()
 endf " Jump to tag
 nn <M-g> :call JumpToDef()<cr>
 ino <M-g> <esc>:call JumpToDef()<cr>i
-
-" I would suggest to put this line to ~/.vim/ftdetect/html.twig.vim file
-" (you should create it), which is the right place for such autocommands.
-" Set the filetype based on the file's extension, overriding any
-" 'filetype' that has already been set
-" au BufRead,BufNewFile *.nim set filetype=nim
