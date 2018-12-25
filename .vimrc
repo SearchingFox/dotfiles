@@ -4,24 +4,23 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin()
-" Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Plug 'scrooloose/nerdtree'
-" Plug 'scrooloose/syntastic'
-" Plug 'tpope/vim-fugitive'
-" Plug 'valloric/youcompleteme'
-" Plug 'vim-syntastic/syntastic'
-" Plug 'davidhalter/jedi-vim'
-Plug 'arcticicestudio/nord-vim'
-Plug 'vimwiki/vimwiki'
-Plug 'zah/nim.vim'
+    Plug 'arcticicestudio/nord-vim'
+    Plug 'vimwiki/vimwiki'
+    Plug 'zah/nim.vim' { 'for': 'nim' }
 call plug#end()
 
+if !isdirectory($HOME."/.vim/undo-dir")
+    call mkdir($HOME."/.vim/undo-dir", "", 0700)
+endif
+set undodir=~/.vim/undo-dir
+set undofile
+
 set nocompatible              " be iMproved, required
-filetype off                  " required
 set encoding=utf-8
 set hlsearch
 set number
 set showmode
+set visualbell
 
 filetype plugin indent on
 set tabstop=4
