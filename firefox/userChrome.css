@@ -1,0 +1,30 @@
+/* @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"); */
+
+/* Hide the native tabs and sidebar header */
+#TabsToolbar,
+#sidebar-close,
+#sidebar-header {
+    visibility: collapse !important;
+}
+
+/* For the context menu of pictures */
+#context-sendimage, 
+#context-setDesktopBackground {
+    display: none !important;
+}
+
+/* Hide giant thumbnail and favicon on Edit Bookmark Panel */
+#editBookmarkPanelImage,
+#editBookmarkPanelFaviconContainer,
+#editBookmarkPanelBottomContent {
+    display: none !important;
+}
+
+/* DISABLE WHITE FLASH OF DEATH */
+#browser vbox#appcontent tabbrowser,
+#content,
+#tabbrowser-tabpanels,
+browser[type=content-primary],
+browser[type=content] > html {
+    background: var(--in-content-page-background)!important
+}

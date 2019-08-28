@@ -6,7 +6,7 @@ endif
 call plug#begin()
     Plug 'arcticicestudio/nord-vim'
     Plug 'vimwiki/vimwiki'
-    Plug 'zah/nim.vim' { 'for': 'nim' }
+    Plug 'zah/nim.vim'
 call plug#end()
 
 if !isdirectory($HOME."/.vim/undo-dir")
