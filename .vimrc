@@ -5,6 +5,7 @@ endif
 
 call plug#begin()
     Plug 'arcticicestudio/nord-vim'
+    Plug 'bling/vim-airline'
     Plug 'vimwiki/vimwiki'
     Plug 'zah/nim.vim'
 call plug#end()
@@ -15,12 +16,20 @@ endif
 set undodir=~/.vim/undo-dir
 set undofile
 
-set nocompatible              " be iMproved, required
+set nocompatible
+filetype off
 set encoding=utf-8
-set hlsearch
-set number
+syntax on
+
+set hlsearch   " Highlight all search results
+set incsearch  " Find the next match as we type the search
+set smartcase  " Enable smart-case search
+
+set number relativenumber
 set showmode
-set visualbell
+set shortmess=I
+set showmatch    " Highlight matching brace
+set visualbell   " Use visual bell (no beeping)
 
 filetype plugin indent on
 set tabstop=4
@@ -33,13 +42,3 @@ map! <F3> <C-R>=strftime('%d.%m.%Y')<CR>
 map! <F4> <C-R>=strftime('%H:%M')<C-R>
 nnoremap <silent> <Space> :nohlsearch <Bar>:echo<CR>
 map q: :
-
-fun! JumpToDef()
-    if exists("*GotoDefinition_" . &filetype)
-        call GotoDefinition_{&filetype}()
-    else
-        exe "norm! \<C-]>"
-    endif
-endf " Jump to tag
-nn <M-g> :call JumpToDef()<cr>
-ino <M-g> <esc>:call JumpToDef()<cr>i
