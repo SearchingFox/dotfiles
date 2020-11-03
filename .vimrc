@@ -29,7 +29,9 @@ set number relativenumber
 set showmode
 set shortmess=I
 set showmatch    " Highlight matching brace
-set visualbell   " Use visual bell (no beeping)
+set visualbell   " don't beep
+set noerrorbells " don't beep
+set hidden       " hides buffers instead of closing them
 
 filetype plugin indent on
 set tabstop=4
