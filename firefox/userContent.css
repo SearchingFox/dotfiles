@@ -1,0 +1,43 @@
+@-moz-document domain(news.ycombinator.com) {
+    .title {
+        font-family: Victor Mono Medium !important;
+        font-size: 14pt !important;
+    }
+
+    .comment {
+        font-family: Victor Mono Medium !important;
+        font-size: 13pt !important;
+    }
+
+    tt, code, kbd, samp {
+        font-family: Fira Code Light;
+        font-size: 12pt;
+    }
+
+    .subtext {
+        font-family: Victor Mono !important;
+        font-size: 11pt !important; 
+    }
+
+    .subtext a:visited {
+        color: blueviolet !important;
+    }
+}
+
+@-moz-document domain(lobste.rs) {
+    .comments_label a:visited {
+        color: blueviolet !important;
+    }
+}
+
+@-moz-document domain(hckrnews.com) {
+    .entries a.hn:visited,
+    .entries a.link:visited {
+        color: blueviolet;
+    }
+
+    .entries a {
+        font-family: 'Victor Mono Medium', 'Lucida Sans Unicode', 'Lucida Sans', Verdana, Tahoma, sans-serif;
+        font-size: 15px;
+    }
+}
