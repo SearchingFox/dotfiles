@@ -1,0 +1,63 @@
+{
+    "code-runner.enableAppInsights": false,
+    "julia.enableTelemetry":         false,
+    "julia.enableCrashReporter":     false,
+    "partialDiff.enableTelemetry":   false,
+    "telemetry.enableCrashReporter": false,
+    "telemetry.enableTelemetry":     false,
+
+    "workbench.colorTheme": "Nord",
+    "workbench.editor.enablePreview": false,
+    "workbench.settings.editor": "json",
+    "workbench.colorCustomizations": {
+        "editorWhitespace.foreground": "#022e2e"
+    },
+
+    "editor.acceptSuggestionOnEnter": "smart",
+    "editor.copyWithSyntaxHighlighting": false,
+    "editor.emptySelectionClipboard": false,
+    "editor.fontFamily": "JetBrains Mono",
+    "editor.fontLigatures": true,
+    "editor.fontSize": 15,
+    "editor.formatOnPaste": true,
+    "editor.multiCursorModifier": "ctrlCmd",
+    "editor.renderWhitespace": "none",
+    "editor.wordWrap": "on",
+
+    "files.hotExit": "onExitAndWindowClose",
+    "files.autoSave": "off",
+    "files.eol": "\n",
+
+    "terminal.integrated.fontFamily": "Iosevka",
+    "terminal.integrated.fontSize": 14,
+    "terminal.integrated.scrollback": 100000,
+    "terminal.integrated.shell.windows": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+    "terminal.integrated.shellArgs.windows": ["-nologo"],
+
+    "haskell.indentationRules.enabled": false,
+    "haskelly.codeCompletion": true,
+    "languageServerHaskell.enableHIE": true,
+    "languageServerHaskell.hieExecutablePath": "C:\\Users\\Asus\\AppData\\Roaming\\local\\bin\\hie.exe",
+
+    "trailing-spaces.highlightCurrentLine": false,
+    "trailing-spaces.includeEmptyLines": false,
+
+    "code-runner.ignoreSelection": true,
+    "code-runner.runInTerminal": true,
+    "code-runner.saveFileBeforeRun": true,
+    "code-runner.executorMap": {
+        "haskell": "cd $dir && stack runhaskell $fileName",
+        "nim": "nim c --verbosity:0 --hints:off --warning[UnusedImport]:off -d:release -d:ssl -r",
+        "cpp": "cd $dir && g++ -O3 -Wall $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+        "rust": "cd $dir && rustc -O $fileName && $dir$fileNameWithoutExt"
+    },
+    "code-runner.executorMapByFileExtension": {
+        ".qs": "cd $dir && dotnet run"
+    },
+
+
+    "C_Cpp.updateChannel": "Insiders",
+    "terminal.integrated.rendererType": "dom",
+    "window.zoomLevel": 0,
+    "tabnine.experimentalAutoImports": true,
+}
