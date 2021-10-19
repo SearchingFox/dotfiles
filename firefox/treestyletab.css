@@ -1,0 +1,89 @@
+/* Disable all animation */
+@keyframes throbber {}
+@keyframes tab-burst-animation {}
+@keyframes tab-burst-animation-light {}
+@keyframes blink {}
+
+/* Change tab height */
+tab-item tab-item-substance {
+  --tab-size: 33px !important;
+  height: var(--tab-size);
+}
+
+/* Less visible tab dividers. 
+   A black border with a very low alpha slightly darkens any color. */
+tab-item-substance {
+  border: solid 1px #00000015;
+  border-radius: 5px;
+}
+
+/* As little space before the tab name as possible.
+   The fold/unfold icon is not affected. */
+tab-item:not(.pinned) tab-item-substance {
+  padding-left: 0px !important; /* !important is required when there are enough tabs to cause a scrollbar */
+}
+
+/* Font style */
+tab-item .label-content {
+  font-family: 'Victor Mono';
+  font-size: 16px;
+}
+
+/* Show title of unread tabs in italic */
+tab-item.unread .label-content {
+  font-style: italic;
+}
+
+/* Show title of collapsed tree in bold */
+tab-item.subtree-collapsed .label-content {
+  font-weight: bold;
+}
+
+/* Make title of discarded tabs less opaque */
+tab-item.discarded tab-item-substance {
+  opacity: 0.5;
+}
+
+/* Hide tree collapse button */
+tab-item tab-twisty {
+  margin-left: 0.3em;
+  margin-right: -1em;
+  opacity: 0 !important;
+}
+
+/* Hide close tab button */
+tab-item tab-item-substance:not(:hover) tab-closebox {
+  display: none;
+}
+
+/* Count tabs */
+#tabbar {
+  counter-reset: vtabs atabs tabs;
+}
+tab-item:not(.collapsed):not(.discarded) {
+  counter-increment: vtabs atabs tabs;
+}
+tab-item:not(.collapsed) {
+  counter-increment: vtabs tabs;
+}
+tab-item:not(.discarded) {
+  counter-increment: atabs tabs;
+}
+tab-item {
+  counter-increment: tabs;
+}
+
+.newtab-button {
+  --tab-count-text: counter(atabs) "/" counter(tabs) " tabs";
+}
+
+.newtab-button::after {
+  content: var(--tab-count-text);
+  pointer-events: none;
+    
+  width: 100%;
+
+  /* TST 2.4.0 - Fix for Issue #1664 */
+  background: transparent !important;
+  mask: none !important;
+}
