@@ -1,11 +1,11 @@
-require('keymaps')
-require('plugins')
-require('lsp_config')
+require("keymaps")
+require("plugins")
+require("lsp_config")
 local o = vim.opt
 
-o.encoding = 'utf-8'
+o.encoding = "utf-8"
 o.title = true
-o.mouse = 'a'
+o.mouse = "a"
 o.startofline = false -- jump to the first non-blank character
 o.showmatch = false
 o.number = true
@@ -14,8 +14,8 @@ o.showmode = true
 o.visualbell = true
 o.ignorecase = true
 o.smartcase = true
-o.wildmode = 'longest:list,full'
-o.wildignorecase = true
+-- o.wildmode = "longest:list,full"
+-- o.wildignorecase = true
 o.expandtab = true
 o.shiftwidth = 4
 o.tabstop = 4
@@ -25,54 +25,49 @@ o.cursorline = true
 o.lazyredraw = true -- faster macros
 o.autochdir = true
 o.list = true
-o.listchars = { trail= '~', tab = '>~' }
-o.signcolumn = 'number'
+o.listchars = { trail= "~", tab = ">~" }
+o.signcolumn = "number"
 o.pumblend = 15
+o.shell = "pwsh.exe"
+o.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command"
+o.shellquote = "("
+o.shellpipe = "|"
+o.shellredir = ">"
+o.shellxquote = ""
 
 -- Appearance
-o.guifont = 'Fira Code:h14,Agave:h16,VictorMono NF:h14'
+o.guifont = "Iosevka:h16,VictorMono NF:h15"
 o.termguicolors = true
-vim.cmd'colorscheme iceberg'
+vim.cmd"colorscheme iceberg"
+
+vim.cmd"language en_US"
 -----
 
--- Shell
-o.shell = 'pwsh.exe'
-o.shellquote = '('
-o.shellpipe = '|'
-o.shellredir = '>'
-o.shellxquote = ''
-o.shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command'
+local yankGrp = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
+    pattern = "*",
+    callback = function() vim.highlight.on_yank({higroup="IncSearch", timeout=600}) end,
+    group = yankGrp,
+    desc = "Highlight yank"
+})
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = "plugins.lua",
+    command = "source <afile> | PackerCompile",
+    desc = "Compile plugins.lua on save"
+})
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = "init.lua",
+    command = "source <afile>",
+    desc = "Source init.vim file on save"
+})
 -----
 
--- Highlight copied text
-vim.api.nvim_exec([[
-    augroup YankHighlight
-        autocmd!
-        autocmd TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
-    augroup end
-]], false)
-
--- Compile plugins.lua on save
-vim.cmd([[
-    augroup packer_user_config
-        autocmd!
-        autocmd BufWritePost plugins.lua source <afile> | PackerCompile
-    augroup end
-]])
-
--- Automatically source init.vim file on save
-vim.cmd([[
-    augroup autosourcing
-        autocmd!
-        autocmd BufWritePost init.lua source <afile>
-    augroup END
-]])
------
-
-session_file = vim.fn.stdpath('config') .. '/sessions/session.vim'
+session_file = vim.fn.stdpath("config") .. "/sessions/session.vim"
 function session_load()
-    if session_file then
-        vim.cmd('silent source ' .. session_file)
+    if vim.fn.filereadable(session_file) then
+        vim.cmd("silent source " .. session_file)
     else
         print("Can't load session file!")
     end
@@ -80,53 +75,58 @@ end
 
 function session_save()
     if vim.fn.filereadable(session_file) then
-        vim.cmd('silent mksession! ' .. session_file)
+        vim.cmd("silent mksession! " .. session_file)
     else
         print("Can't save session file!")
     end
 end
 
-vim.cmd([[
-    autocmd VimEnter * nested :lua session_load()
-    autocmd VimLeave * :lua session_save()
-]])
-----
+vim.api.nvim_create_autocmd("VimEnter", {
+    pattern = "*",
+    nested = true,
+    callback = session_load
+})
 
-vim.cmd([[
-    autocmd TermOpen * startinsert
-    autocmd BufWinEnter,WinEnter term://* startinsert
-    autocmd BufEnter * silent! lcd %:p:h
-]])
+vim.api.nvim_create_autocmd("VimLeave", {
+    pattern = "*",
+    callback = session_save
+})
+
+-- vim.api.nvim_create_autocmd("TermOpen", { pattern = "*", command = "startinsert" })
+-- vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter" }, { pattern = "term://*", command = "startinsert" })
+-- vim.api.nvim_create_autocmd("BufEnter", { pattern = "*", command = "lcd %:p:h" })
 
 -- Plugins' settings
-o.completeopt = 'menuone,noinsert,noselect'
-local parser_configs = require'nvim-treesitter.parsers'.get_parser_configs()
+-- Neorg
+o.completeopt = "menuone,noinsert,noselect"
+local parser_configs = require"nvim-treesitter.parsers".get_parser_configs()
 parser_configs.norg = {
     install_info = {
-        url = 'https://github.com/nvim-neorg/tree-sitter-norg',
-        files = { 'src/parser.c', 'src/scanner.cc' },
-        branch = 'main'
+        url = "https://github.com/nvim-neorg/tree-sitter-norg",
+        files = { "src/parser.c", "src/scanner.cc" },
+        branch = "main"
     },
 }
 
 parser_configs.norg_meta = {
     install_info = {
-        url = 'https://github.com/nvim-neorg/tree-sitter-norg-meta',
-        files = { 'src/parser.c' },
-        branch = 'main'
+        url = "https://github.com/nvim-neorg/tree-sitter-norg-meta",
+        files = { "src/parser.c" },
+        branch = "main"
     },
 }
 
 parser_configs.norg_table = {
     install_info = {
-        url = 'https://github.com/nvim-neorg/tree-sitter-norg-table',
-        files = { 'src/parser.c' },
-        branch = 'main'
+        url = "https://github.com/nvim-neorg/tree-sitter-norg-table",
+        files = { "src/parser.c" },
+        branch = "main"
     },
 }
+----
 
-require'nvim-treesitter.configs'.setup {
-    ensure_installed = { 'lua', 'rust', 'norg', 'norg_meta', 'norg_table', 'haskell', 'cpp', 'c', 'javascript' },
+require"nvim-treesitter.configs".setup {
+    ensure_installed = { "lua", "rust", "norg", "norg_meta", "norg_table", "haskell", "cpp", "c", "javascript" },
     highlight = {
         enable = true,
         additional_vim_regex_highlighting = false,
@@ -140,64 +140,60 @@ require'nvim-treesitter.configs'.setup {
 
 -- Lualine
 local function lsp()
-    local msg = 'None'
-    local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+    local msg = "None"
+    local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
     local clients = vim.lsp.get_active_clients()
+
     if next(clients) == nil then
       return msg
     end
+
     for _, client in ipairs(clients) do
       local filetypes = client.config.filetypes
       if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
         return client.name
       end
     end
+
     return msg
 end
 
 local config = {
-    options = { theme = 'iceberg' },
+    options = { theme = "iceberg" },
     sections = {
         lualine_c = { lsp },
     },
     tabline = {
-        lualine_a = { { 'buffers', mode=2, max_length=140 } }
+        lualine_a = { { "buffers", mode=4, max_length=140 } }
     }
 }
-require'lualine'.setup(config)
-----
-
--- FTerm
-require'FTerm'.setup({
-    cmd = 'pwsh.exe -NoLogo -NoProfile -WorkingDirectory "' .. vim.fn.expand('%:h') .. '"',
-    dimensions  = {
-        height = 0.9,
-        width = 0.9,
-    },
-})
+require"lualine".setup(config)
 ----
 
 -- Neorg
-require'neorg'.setup {
+require"neorg".setup {
     load = {
-        ['core.defaults'] = {}, -- Load all the default modules
-        ['core.norg.concealer'] = {}, -- Allows for use of icons
-        ['core.norg.dirman'] = { -- Manage your directories with Neorg
+        ["core.defaults"] = {}, -- Load all the default modules
+        ["core.norg.concealer"] = {}, -- Allows for use of icons
+        ["core.norg.dirman"] = { -- Manage your directories with Neorg
             config = {
                 workspaces = {
-                    my_workspace = 'C:/Users/Asus/Documents/neorg'
+                    my_workspace = "C:/Users/Asus/Documents/neorg"
                 }
             }
         },
-        ['core.norg.completion'] = {
+        ["core.norg.completion"] = {
             config = {
-                engine = 'nvim-cmp'
+                engine = "nvim-cmp"
             }
         }
     }
 }
 ----
 
+-- vim.cmd"let g:neovide_cursor_animation_length=0.1"
+-- vim.cmd"let g:neovide_cursor_trail_length=0.8"
+
 if vim.g.nvui then
-    vim.cmd[[NvuiCursorAnimationDuration 0.33]]
+    vim.cmd"NvuiCursorAnimationDuration 0.33"
 end
